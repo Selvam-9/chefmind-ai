@@ -1,0 +1,165 @@
+import streamlit as st
+
+from src.data_loader import load_recipes
+from src.preprocess import create_documents
+from src.embedding_store import get_embeddings
+from src.vector_store import get_index
+from src.bm25_retriever import create_bm25
+from src.rag import ask
+
+# -----------------------------
+# Page Configuration
+# -----------------------------
+
+st.set_page_config(
+    page_title="ChefMind AI",
+    page_icon="🍳",
+    layout="wide"
+)
+
+# -----------------------------
+# Sidebar
+# -----------------------------
+
+with st.sidebar:
+
+    st.title("🍳 ChefMind AI")
+
+    st.markdown("---")
+
+    st.markdown("### 🚀 Features")
+
+    st.success("Hybrid Search")
+    st.success("Semantic Search (FAISS)")
+    st.success("Keyword Search (BM25)")
+    st.success("Google Gemini")
+    st.success("1000+ Indian Recipes")
+
+    st.markdown("---")
+
+    st.markdown("### 💡 Example Questions")
+
+    st.write("• I have paneer and tomato")
+    st.write("• Give me spicy chicken recipe")
+    st.write("• Healthy breakfast")
+    st.write("• South Indian dinner")
+    st.write("• Quick lunch under 30 minutes")
+
+    st.markdown("---")
+
+    st.info(
+        "Built using\n\n"
+        "- Python\n"
+        "- Sentence Transformers\n"
+        "- FAISS\n"
+        "- BM25\n"
+        "- Google Gemini\n"
+        "- Streamlit"
+    )
+
+# -----------------------------
+# Load Everything
+# -----------------------------
+
+@st.cache_resource
+def initialize():
+
+    recipes = load_recipes()
+
+    documents = create_documents(recipes)
+
+    embeddings = get_embeddings(documents)
+
+    index = get_index(embeddings)
+
+    bm25 = create_bm25(documents)
+
+    return documents, index, bm25
+
+documents, index, bm25 = initialize()
+
+# -----------------------------
+# Title
+# -----------------------------
+
+st.title("🍳 ChefMind AI")
+
+st.caption(
+    "Hybrid RAG Recipe Assistant powered by FAISS + BM25 + Gemini"
+)
+
+# -----------------------------
+# Chat History
+# -----------------------------
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Display previous conversation
+
+for message in st.session_state.messages:
+
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# -----------------------------
+# Chat Input
+# -----------------------------
+
+query = st.chat_input(
+    "Ask anything about recipes..."
+)
+
+if query:
+
+    # Show user message
+
+    st.session_state.messages.append(
+        {
+            "role": "user",
+            "content": query
+        }
+    )
+
+    with st.chat_message("user"):
+        st.markdown(query)
+
+    # Generate Answer
+
+    with st.chat_message("assistant"):
+
+        with st.spinner("👨‍🍳 Cooking your answer..."):
+
+            answer, retrieved_docs = ask(
+                query=query,
+                index=index,
+                bm25=bm25,
+                documents=documents
+            )
+
+            st.markdown(answer)
+
+            with st.expander("🔍 Retrieved Recipes"):
+
+                for i, doc in enumerate(retrieved_docs, start=1):
+
+                    title = doc.split("\n")[0]
+
+                    st.write(f"**{i}. {title}**")
+
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": answer
+        }
+    )
+
+# -----------------------------
+# Footer
+# -----------------------------
+
+st.markdown("---")
+
+st.caption(
+    "❤️ Built by Selvam A | Hybrid RAG | Streamlit | FAISS | BM25 | Gemini"
+)
