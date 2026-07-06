@@ -40,8 +40,4 @@ def generate_answer(prompt):
         contents=prompt
     )
 
-<<<<<<< HEAD
     return response.text
-=======
-    return response.text
->>>>>>> bd1bc22537f96e22f19d1655706d7353f2a66535
