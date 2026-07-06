@@ -17,4 +17,10 @@ def generate_answer(prompt):
         model=os.getenv('GEMINI_MODEL'),
         contents=prompt
     )
+    if not response:
+        response = client.models.generate_content(
+        model=st.secrets.get('GEMINI_MODEL'),
+        contents=prompt
+    )
+    
     return response.text
