@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from dotenv import load_dotenv
-from google import genai
+from openrouter import OpenRouter
 
 load_dotenv()
 
@@ -9,25 +9,25 @@ load_dotenv()
 # Get API Key
 # -----------------------------
 
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("OPENROUTER_API_KEY")
 
 if not api_key:
-    api_key = st.secrets["GEMINI_API_KEY"]
+    api_key = st.secrets["OPENROUTER_API_KEY"]
 
 # -----------------------------
 # Get Model
 # -----------------------------
 
-model_name = os.getenv("GEMINI_MODEL")
+model_name = os.getenv("OPENROUTER_MODEL")
 
 if not model_name:
-    model_name = st.secrets["GEMINI_MODEL"]
+    model_name = st.secrets["OPENROUTER_MODEL"]
 
 # -----------------------------
 # Create Client
 # -----------------------------
 
-client = genai.Client(api_key=api_key)
+client = OpenRouter.Client(api_key=api_key)
 
 # -----------------------------
 # Generate Answer
