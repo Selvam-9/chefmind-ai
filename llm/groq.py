@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from dotenv import load_dotenv
-from google import genai
+from groq import Groq
 
 load_dotenv()
 
@@ -18,16 +18,16 @@ if not api_key:
 # Get Model
 # -----------------------------
 
-model_name = os.getenv("GROQ_API_KEY")
+model_name = os.getenv("GROQ_MODEL")
 
 if not model_name:
-    model_name = st.secrets["GROQ_API_KEY"]
+    model_name = st.secrets["GROQ_MODEL"]
 
 # -----------------------------
 # Create Client
 # -----------------------------
 
-client = genai.Client(api_key=api_key)
+client = Groq.Client(api_key=api_key)
 
 # -----------------------------
 # Generate Answer
