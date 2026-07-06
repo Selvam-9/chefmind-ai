@@ -1,6 +1,6 @@
 from src.hybrid_retriever import hybrid_retrieve
 from src.prompt import build_prompt
-from llm.gemini import generate_answer
+from llm.manager import generate_answer
 
 def ask(query, index, bm25, documents):
     """
@@ -11,6 +11,6 @@ def ask(query, index, bm25, documents):
 
     prompt = build_prompt(query, retrieved_documents)
 
-    answer = generate_answer(prompt)
+    answer,provider = generate_answer(prompt)
 
-    return answer, retrieved_documents
+    return answer, provider, retrieved_documents

@@ -9,19 +9,19 @@ load_dotenv()
 # Get API Key
 # -----------------------------
 
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("GROQ_API_KEY")
 
 if not api_key:
-    api_key = st.secrets["GEMINI_API_KEY"]
+    api_key = st.secrets["GROQ_API_KEY"]
 
 # -----------------------------
 # Get Model
 # -----------------------------
 
-model_name = os.getenv("GEMINI_MODEL")
+model_name = os.getenv("GROQ_API_KEY")
 
 if not model_name:
-    model_name = st.secrets["GEMINI_MODEL"]
+    model_name = st.secrets["GROQ_API_KEY"]
 
 # -----------------------------
 # Create Client
