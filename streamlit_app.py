@@ -32,7 +32,7 @@ with st.sidebar:
     st.success("Hybrid Search")
     st.success("Semantic Search (FAISS)")
     st.success("Keyword Search (BM25)")
-    st.success("Google Gemini\OpenRouter\Groq")
+    st.success("Google Gemini | OpenRouter")
     st.success("1000+ Indian Recipes")
 
     st.markdown("---")
@@ -53,7 +53,7 @@ with st.sidebar:
         "- Sentence Transformers\n"
         "- FAISS\n"
         "- BM25\n"
-        "- Google Gemini\OpenRouter\Groq\n"
+        "- Google Gemini | OpenRouter\n"
         "- Streamlit"
     )
 
@@ -85,7 +85,7 @@ documents, index, bm25 = initialize()
 st.title("🍳 ChefMind AI")
 
 st.caption(
-    "Hybrid RAG Recipe Assistant powered by FAISS + BM25 + Google Gemini\OpenRouter\Groq"
+    "Hybrid RAG Recipe Assistant powered by FAISS + BM25 + Google Gemini | OpenRouter"
 )
 
 # -----------------------------
@@ -158,5 +158,5 @@ if query:
 st.markdown("---")
 
 st.caption(
-    "❤️ Built by Selvam A | Hybrid RAG | Streamlit | FAISS | BM25 | Google Gemini\OpenRouter\Groq"
+    "❤️ Built by Selvam A | Hybrid RAG | Streamlit | FAISS | BM25 | Google Gemini | OpenRouter"
 )
