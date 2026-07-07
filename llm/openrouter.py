@@ -1,7 +1,8 @@
 import os
 import streamlit as st
 from dotenv import load_dotenv
-from openrouter import OpenRouter
+from openai import OpenAI
+
 
 load_dotenv()
 
@@ -27,17 +28,24 @@ if not model_name:
 # Create Client
 # -----------------------------
 
-client = OpenRouter.Client(api_key=api_key)
-
+client = OpenAI(
+    api_key=api_key,
+    base_url="https://openrouter.ai/api/v1"
+)
 # -----------------------------
 # Generate Answer
 # -----------------------------
 
 def generate_answer(prompt):
 
-    response = client.models.generate_content(
-        model=model_name,
-        contents=prompt
+    response = client.chat.completions.create(
+    model=model_name,
+    messages=[
+        {
+            "role":"user",
+            "content":prompt
+        }
+    ]
     )
 
-    return response.text
+    return response.choices[0].message.content
