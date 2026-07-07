@@ -7,3 +7,5 @@ groq
 rank-bm25
 numpy
 python-dotenv
+torchvision
+openai
