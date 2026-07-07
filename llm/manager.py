@@ -1,7 +1,7 @@
 from llm import openrouter
 from llm.gemini import generate_answer as gemini_generate
 from llm.openrouter import generate_answer as openrouter_generate
-from llm.groq import generate_answer as groq_generate
+
 
 
 def generate_answer(prompt):
@@ -9,7 +9,7 @@ def generate_answer(prompt):
     providers = [
         ("Gemini", gemini_generate),
         ("OpenRouter", openrouter_generate),
-        ("Groq", groq_generate)
+        #("Groq", groq_generate)
     ]
 
     for provider_name, provider in providers:
@@ -29,7 +29,5 @@ def generate_answer(prompt):
             print(f"{provider_name} Failed: {e}")
 
     return (
-        "Sorry, all AI providers are currently unavailable. "
-        "Please try again later."
-    )
-
+    "Sorry, all AI providers are currently unavailable. Please try again later.",
+    "None")
